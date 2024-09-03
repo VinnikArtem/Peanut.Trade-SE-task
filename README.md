@@ -4,7 +4,7 @@
 
 Firstly you need to add new settings to `appsettings.json`. You should follow the same structure as previous ones. **Note!** Count of symbols should be the same for all exchangesand must mean the same cryptocurrency pairs, for example `BTCUSDT` for Binance and `BTC-USDT` for Kucoin.
 
-![image](https://github.com/user-attachments/assets/64d1c670-3b7b-49fb-98bd-9a963b672c8c)
+![image](https://github.com/user-attachments/assets/82e30f9a-276b-4d4d-9c80-117f19c2b77a)
 
 Next step, you need to create a new client settings and inherit it from the 'BaseExchangeClientSettings' class, then register it in `Program.cs`.
 
