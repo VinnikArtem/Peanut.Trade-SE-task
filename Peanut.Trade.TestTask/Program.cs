@@ -9,7 +9,12 @@ using Peanut.Trade.TestTask.Validators;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpClient();
-builder.Services.AddControllers();
+builder.Services
+    .AddControllers()
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        options.SuppressModelStateInvalidFilter = true;
+    }); ;
 
 builder.Services.Configure<BinanceClientSettings>(builder.Configuration.GetSection("BinanceClientSettings"));
 builder.Services.Configure<KucoinClientSettings>(builder.Configuration.GetSection("KucoinClientSettings"));

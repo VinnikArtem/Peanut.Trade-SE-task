@@ -15,7 +15,7 @@ namespace Peanut.Trade.TestTask.IntegrationService.Services
         public async Task<BestEstimatedOffer> GetBestEstimatedOfferAsync(decimal inputAmount, string inputCurrency, string outputCurrency)
         {
             var bestCurrencyLastPrice = new CurrencyLastPrice();
-            var isInputCurrencyFirst = false;
+            var isInputCurrencyFirstInSymbol = false;
 
             foreach (var exchangeClient in _exchangeClients)
             {
@@ -28,13 +28,13 @@ namespace Peanut.Trade.TestTask.IntegrationService.Services
                     continue;
                 }
 
-                isInputCurrencyFirst = currencyLastPrice.Symbol.StartsWith(inputCurrency, StringComparison.OrdinalIgnoreCase);
+                isInputCurrencyFirstInSymbol = currencyLastPrice.Symbol.StartsWith(inputCurrency, StringComparison.OrdinalIgnoreCase);
 
-                if (!isInputCurrencyFirst && currencyLastPrice.Price < bestCurrencyLastPrice.Price)
+                if (!isInputCurrencyFirstInSymbol && currencyLastPrice.Price < bestCurrencyLastPrice.Price)
                 {
                     bestCurrencyLastPrice = currencyLastPrice;
                 }
-                else if (isInputCurrencyFirst && currencyLastPrice.Price > bestCurrencyLastPrice.Price)
+                else if (isInputCurrencyFirstInSymbol && currencyLastPrice.Price > bestCurrencyLastPrice.Price)
                 {
                     bestCurrencyLastPrice = currencyLastPrice;
                 }
@@ -43,12 +43,34 @@ namespace Peanut.Trade.TestTask.IntegrationService.Services
             var bestEstimatedOffer = new BestEstimatedOffer
             {
                 ExchangeName = bestCurrencyLastPrice.ExchangeName,
-                OutputAmount = isInputCurrencyFirst
+                OutputAmount = isInputCurrencyFirstInSymbol
                     ? inputAmount * bestCurrencyLastPrice.Price
                     : inputAmount / bestCurrencyLastPrice.Price
             };
 
             return bestEstimatedOffer;
+        }
+
+        public async Task<IEnumerable<CryptoRate>> GetRatesAsync(string baseCurrency, string quoteCurrency)
+        {
+            var rates = new List<CryptoRate>();
+
+            foreach (var exchangeClient in _exchangeClients)
+            {
+                var currencyLastPrice = await exchangeClient.GetCurrencyLastPriceAsync(baseCurrency, quoteCurrency);
+
+                var isInputCurrencyFirstInSymbol = currencyLastPrice.Symbol.StartsWith(baseCurrency, StringComparison.OrdinalIgnoreCase);
+
+                rates.Add(new CryptoRate
+                {
+                    ExchangeName = currencyLastPrice.ExchangeName,
+                    Rate = isInputCurrencyFirstInSymbol
+                        ? currencyLastPrice.Price
+                        : 1 / currencyLastPrice.Price
+                });
+            }
+
+            return rates;
         }
     }
 }
