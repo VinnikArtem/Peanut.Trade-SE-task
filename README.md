@@ -19,4 +19,34 @@ After this your implementation will pull through DI to `ArbitrationService` and 
 
 ![image](https://github.com/user-attachments/assets/6d371cee-43a6-4072-8cf9-6e26d89ae066)
 
+## Examples of requests and responses
+
+**Request**
+`/api/arbitration/estimate?inputAmount=5&outputCurrency=BTC&inputCurrency=ETH`
+
+**Response**
+```
+{
+    "outputAmount": 0.21215000,
+    "exchangeName": "binance"
+}
+```
+
+**Request**
+`/api/arbitration/rates?baseCurrency=ETH&quoteCurrency=BTC`
+
+**Response**
+```
+[
+    {
+        "exchangeName": "binance",
+        "rate": 0.04231000
+    },
+    {
+        "exchangeName": "kucoin",
+        "rate": 0.04229
+    }
+]
+```
+
 ### Best regards!
