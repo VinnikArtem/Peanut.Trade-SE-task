@@ -11,7 +11,7 @@ namespace Peanut.Trade.TestTask.IntegrationService.Models.Kucoin
         public decimal Price { get; set; }
 
         [JsonProperty("size")]
-        public double Size { get; set; }
+        public decimal Size { get; set; }
 
         [JsonProperty("side")]
         public string Side { get; set; }

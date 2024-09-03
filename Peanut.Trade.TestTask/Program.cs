@@ -1,15 +1,15 @@
+using FluentValidation;
 using Microsoft.Extensions.Options;
 using Peanut.Trade.TestTask.IntegrationService.Models.ClientSettings;
 using Peanut.Trade.TestTask.IntegrationService.Services;
 using Peanut.Trade.TestTask.IntegrationService.Services.ExchangeClients;
 using Peanut.Trade.TestTask.IntegrationService.Services.Interfaces;
+using Peanut.Trade.TestTask.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpClient();
 builder.Services.AddControllers();
-
-builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.Configure<BinanceClientSettings>(builder.Configuration.GetSection("BinanceClientSettings"));
 builder.Services.Configure<KucoinClientSettings>(builder.Configuration.GetSection("KucoinClientSettings"));
@@ -24,6 +24,8 @@ builder.Services.AddTransient<IExchangeClient>(x => new KucoinClient(
     x.GetService<IApiService>(),
     x.GetService<IOptions<KucoinClientSettings>>().Value));
 builder.Services.AddTransient<IArbitrationService, ArbitrationService>();
+
+builder.Services.AddValidatorsFromAssemblyContaining<EstimateQueryContractValidator>(ServiceLifetime.Scoped);
 
 var app = builder.Build();
 

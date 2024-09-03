@@ -12,7 +12,7 @@ namespace Peanut.Trade.TestTask.IntegrationService.Services
             _exchangeClients = exchangeClients ?? throw new ArgumentNullException(nameof(exchangeClients));
         }
 
-        public async Task<BestEstimatedOffer> GetBestEstimatedOffer(decimal inputAmount, string inputCurrency, string outputCurrency)
+        public async Task<BestEstimatedOffer> GetBestEstimatedOfferAsync(decimal inputAmount, string inputCurrency, string outputCurrency)
         {
             var bestCurrencyLastPrice = new CurrencyLastPrice();
             var isInputCurrencyFirst = false;

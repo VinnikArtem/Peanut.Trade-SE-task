@@ -11,6 +11,6 @@ namespace Peanut.Trade.TestTask.IntegrationService.Services.Interfaces
         /// <param name="inputCurrency">Input currency</param>
         /// <param name="outputCurrency">Output currency</param>
         /// <returns>Best estimated offer</returns>
-        Task<BestEstimatedOffer> GetBestEstimatedOffer(decimal inputAmount, string inputCurrency, string outputCurrency);
+        Task<BestEstimatedOffer> GetBestEstimatedOfferAsync(decimal inputAmount, string inputCurrency, string outputCurrency);
     }
 }

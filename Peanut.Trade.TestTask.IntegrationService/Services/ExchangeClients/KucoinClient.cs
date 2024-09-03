@@ -21,11 +21,11 @@ namespace Peanut.Trade.TestTask.IntegrationService.Services.ExchangeClients
         {
             var (apiRequest, symbol) = _exchangeClientSettings.GetGetLastPriceApiRequest(inputCurrency, outputCurrency);
 
-            var recentTrades = await _apiService.SendRequestAsync<IEnumerable<RecentTrade>>(apiRequest);
+            var recentTrades = await _apiService.SendRequestAsync<BaseKucoinResponse<IEnumerable<RecentTrade>>>(apiRequest);
 
-            if (recentTrades == null || !recentTrades.Any()) return new CurrencyLastPrice();
+            if (recentTrades == null || !recentTrades.Data.Any()) return new CurrencyLastPrice();
 
-            var lastTrade = recentTrades.LastOrDefault();
+            var lastTrade = recentTrades.Data.LastOrDefault();
 
             return new CurrencyLastPrice
             {
