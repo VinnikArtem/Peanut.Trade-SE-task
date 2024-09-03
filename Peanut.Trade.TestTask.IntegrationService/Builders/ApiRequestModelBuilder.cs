@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using Peanut.Trade.TestTask.IntegrationService.Models;
+﻿using Peanut.Trade.TestTask.IntegrationService.Models;
 
 namespace Peanut.Trade.TestTask.IntegrationService.Builders
 {
@@ -42,39 +40,9 @@ namespace Peanut.Trade.TestTask.IntegrationService.Builders
             _request = null;
         }
 
-        public ApiRequestModelBuilder SetContentType(string contentType)
-        {
-            _request.ContentType = contentType;
-
-            return this;
-        }
-
-        public ApiRequestModelBuilder SetHeader(string key, string value)
-        {
-            _request.Headers.Add(key, value);
-
-            return this;
-        }
-
-        public ApiRequestModelBuilder SetHeaders(Dictionary<string, string> headers)
-        {
-            _request.Headers = _request.Headers
-                .Concat(headers)
-                .ToDictionary(x => x.Key, x => x.Value);
-
-            return this;
-        }
-
         public ApiRequestModelBuilder SetQueryString(string queryString)
         {
             _request.Url = new Uri(_request.Url.ToString() + queryString);
-
-            return this;
-        }
-
-        public ApiRequestModelBuilder SetHttpClient(string httpClient)
-        {
-            _request.HttpClientName = httpClient;
 
             return this;
         }
