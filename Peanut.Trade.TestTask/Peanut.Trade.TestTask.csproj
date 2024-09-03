@@ -10,4 +10,8 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Peanut.Trade.TestTask.IntegrationService\Peanut.Trade.TestTask.IntegrationService.csproj" />
+  </ItemGroup>
+
 </Project>
