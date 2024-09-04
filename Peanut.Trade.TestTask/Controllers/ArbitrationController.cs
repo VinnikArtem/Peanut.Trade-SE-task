@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Peanut.Trade.TestTask.IntegrationService.Services.Interfaces;
 using Peanut.Trade.TestTask.Models;
@@ -28,12 +29,7 @@ namespace Peanut.Trade.TestTask.Controllers
         {
             var validationResult = await _estimateQueryContractValidator.ValidateAsync(estimateQueryContract);
 
-            if (!validationResult.IsValid)
-            {
-                var errorMessage = validationResult.Errors.Aggregate(string.Empty, (s, failure) => s += failure.ErrorMessage + ";");
-
-                return BadRequest(errorMessage);
-            }
+            if (!validationResult.IsValid) GetBadRequest(validationResult);
 
             var bestEstimatedOffer = await _arbitrationService.GetBestEstimatedOfferAsync(
                 estimateQueryContract.InputAmount,
@@ -48,18 +44,20 @@ namespace Peanut.Trade.TestTask.Controllers
         {
             var validationResult = await _ratesQueryContractValidator.ValidateAsync(ratesQueryContract);
 
-            if (!validationResult.IsValid)
-            {
-                var errorMessage = validationResult.Errors.Aggregate(string.Empty, (s, failure) => s += failure.ErrorMessage + ";");
-
-                return BadRequest(errorMessage);
-            }
+            if (!validationResult.IsValid) GetBadRequest(validationResult);
 
             var bestEstimatedOffer = await _arbitrationService.GetRatesAsync(
                 ratesQueryContract.BaseCurrency,
                 ratesQueryContract.QuoteCurrency);
 
             return Ok(bestEstimatedOffer);
+        }
+
+        private IActionResult GetBadRequest(ValidationResult validationResult)
+        {
+            var errorMessage = validationResult.Errors.Aggregate(string.Empty, (s, failure) => s += failure.ErrorMessage + ";");
+
+            return BadRequest(errorMessage);
         }
     }
 }

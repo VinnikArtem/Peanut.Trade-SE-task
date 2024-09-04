@@ -2,7 +2,7 @@
 
 ## How to add new Exchange to project
 
-Firstly you need to add new settings to `appsettings.json`. You should follow the same structure as previous ones. **Note!** Count of symbols should be the same for all exchangesand must mean the same cryptocurrency pairs, for example `BTCUSDT` for Binance and `BTC-USDT` for Kucoin.
+Firstly you need to add new settings to `appsettings.json`. You should follow the same structure as previous ones. **Note!** Count of symbols should be the same for all exchanges and must mean the same cryptocurrency pairs, for example `BTCUSDT` for Binance and `BTC-USDT` for Kucoin.
 
 ![image](https://github.com/user-attachments/assets/82e30f9a-276b-4d4d-9c80-117f19c2b77a)
 
